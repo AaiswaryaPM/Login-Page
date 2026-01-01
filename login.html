@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LoginPage</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+            body{
+                margin: 0;
+                font-family: "Poppins", sans-serif;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                background-image: url(images/bamboo.jpg);
+                background-size: cover;
+                background-position: center;
+            }
+            .scene{
+                position: relative;
+                width: 350px;
+                max-width: 90%; 
+                height: auto;
+                min-height: 580px;
+                background: linear-gradient(180deg, #fff 60%, #f4f4f4);
+                border-radius: 25px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+                overflow: hidden;
+                padding: 130px 20px 40px 20px;
+                text-align: center;
+            }
+
+            /* Responsive Adjustments - Minimized for Mobile */
+            @media (max-width: 480px), (max-height: 700px) {
+                body { overflow-y: auto; align-items: center; padding: 10px 0 20px 0; }
+                .scene { 
+                    min-height: auto; 
+                    padding: 90px 15px 25px 15px; 
+                    border-radius: 20px;
+                }
+                .panda { transform: translateX(-50%) scale(0.8) !important; top: 5px; }
+                h2 { padding-top: 50px; font-size: 20px; margin-bottom: 15px; }
+                .input-group { margin: 12px auto; }
+                button { padding: 10px 20px; font-size: 14px; }
+                .divider { margin: 10px auto; }
+                .forgot-link { margin-bottom: 10px; font-size: 12px; }
+            }
+
+            /* Panda Body */
+            .panda{
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 200px;
+                height: 180px;
+                animation: breathe 4s ease-in-out infinite;
+                z-index: 10;
+            }
+            @keyframes breathe{
+                0%, 100%{ transform: translateX(-50%) scale(1);}
+                50%{ transform: translateX(-50%) scale(1.03);}
+            }
+            .head{
+                position: inherit;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120px;
+                height: 120px;
+                background: radial-gradient(circle at 60% 30%, #fff 40%, #e8e8e8 100%);
+                border-radius: 50%;
+                box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            }
+            .ear{
+                position: absolute;
+                width: 45px;
+                height: 45px;
+                background: radial-gradient(circle at 30% 30%, #222 0%, #000 100%);
+                border-radius: 50%;
+                top: -10px;
+            }
+            .ear.left{ left: 5px; }
+            .ear.right{ right: 5px; }
+            .eye-patch{
+                position: absolute;
+                width: 36px;
+                height: 40px;
+                background: radial-gradient(circle at 30% 40%, #333 0%, #000 100%);
+                border-radius: 50% 50% 40% 40%;
+                top: 40px;
+            }
+            .eye-patch.left{ left: 20px; transform: rotate(-8deg); }
+            .eye-patch.right{ right: 20px; transform: rotate(8deg); }
+            .eye{
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                background: #fff;
+                border-radius: 50%;
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 5;
+            }
+            .pupil{
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle at 30% 30%, #e6d6d6 0%, #ebe4e4 100%);
+                border-radius: 50%;
+                position: absolute;
+                top: -30px;
+                left: 4px;
+                transition: all 0.2s ease;
+            }
+            .nose{
+                position: absolute;
+                top: 75px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 16px;
+                height: 12px;
+                background: #000;
+                border-radius: 50% / 60%;
+            }
+            .mouth{
+                position: absolute;
+                top: 90px;
+                left: 50%;
+                width: 28px;
+                height: 14px;
+                border-bottom: 3px solid #000;
+                border-radius: 0 0 40px 40px;
+                transform: translateX(-50%);
+            }
+            .arm{
+                position: absolute;
+                width: 50px;
+                height: 60px;
+                background: radial-gradient(circle at 30% 30%, #222 0%, #000 100%);
+                border-radius: 30px;
+                top: 90px;
+                transition: all 0.5s ease;
+                z-index: 11;
+            }
+            .arm.left{ left: 0; transform-origin: top right; }
+            .arm.right{ right: 0; transform-origin: top left; }
+            .hide-eyes .arm.left{ transform: rotate(60deg) translateY(-10px); }
+            .hide-eyes .arm.right{ transform: rotate(-60deg) translateY(-10px); }
+            .wave .arm.right{ animation: waveArm 1s ease-in-out; }
+            @keyframes waveArm{
+                0%, 100%{ transform: rotate(0deg);}
+                25%, 75%{ transform: rotate(-60deg);}
+                50%{ transform: rotate(-30deg);}
+            }
+            .blink .pupil::after{
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -2px;
+                width: 14px;
+                height: 14px;
+                background: #000;
+                border-radius: 50%;
+                animation: blinkAnim 0.2s linear;
+            }
+            @keyframes blinkAnim{
+                0%, 100%{ transform: scaleY(1);}
+                50%{ transform: scaleY(0.1);}
+            }
+
+            /* Form Styling */
+            h2{ padding-top: 80px; color: #222; margin-bottom: 25px; }
+            
+            .input-group {
+                position: relative;
+                width: 80%;
+                margin: 20px auto;
+                display: flex;
+                align-items: center;
+                border-bottom: 2px solid #aaa;
+                transition: 0.3s;
+            }
+            .input-group i:first-child {
+                color: #777;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+            .input-group:focus-within {
+                border-bottom-color: #6b4ce6;
+            }
+            .input-group:focus-within i:first-child {
+                color: #6b4ce6;
+            }
+            input{
+                width: 100%;
+                padding: 10px 5px;
+                border: none;
+                background: transparent;
+                transition: 0.3s;
+                font-size: 15px;
+                outline: none;
+            }
+            .toggle-pass {
+                cursor: pointer;
+                color: #777;
+                padding-left: 10px;
+            }
+            .toggle-pass:hover {
+                color: #222;
+            }
+            
+            .forgot-link { 
+                display: inline-block;
+                font-family: "Poppins", sans-serif; 
+                font-size: 13px; 
+                text-decoration: none; 
+                color: #777; 
+                transition: 0.3s;
+                margin-bottom: 15px;
+            }
+            .forgot-link:hover{ 
+                color: #6b4ce6;
+                transform: scale(1.05);
+            }
+            
+            button{
+                width: 80%;
+                margin: 10px 0;
+                background: #280096;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 25px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-weight: 600;
+            }
+            button:hover{ background: #3d1defff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+            .google-btn{
+                background: white;
+                color: #000;
+                border: 1px solid #ddd;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin: 0 auto;
+            }
+            .google-btn:hover{ background: #fdfdfd; border-color: #6b4ce6; }
+            .google-btn i { color: #DB4437; font-size: 18px; }
+
+            .divider {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                margin: 15px auto;
+                width: 80%;
+                color: #bbb;
+                font-size: 14px;
+            }
+            .divider::before, .divider::after {
+                content: '';
+                flex: 1;
+                border-bottom: 1px solid #eee;
+            }
+            .divider:not(:empty)::before { margin-right: .5em; }
+            .divider:not(:empty)::after { margin-left: .5em; }
+
+            #message {
+                font-size: 12px;
+                margin: 0 auto;
+                width: 80%;
+                font-weight: bold;
+                transition: 0.3s ease;
+                max-height: 0;
+                overflow: hidden;
+                line-height: 1.2;
+            }
+            #message.show {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                max-height: 60px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="scene">
+            <div class="panda" id="panda">
+                <div class="head">
+                    <div class="ear left"></div>
+                    <div class="ear right"></div>
+                    <div class="eye-patch left">
+                        <div class="eye"><div class="pupil"></div></div>
+                    </div>
+                    <div class="eye-patch right">
+                        <div class="eye"><div class="pupil"></div></div>
+                    </div>
+                    <div class="nose"></div>
+                    <div class="mouth"></div>
+                    <div class="arm left"></div>
+                    <div class="arm right"></div>
+                </div>
+            </div>
+            <h2>Welcome</h2>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" id="password">
+                <i class="fa-solid fa-eye-slash toggle-pass" id="togglePassword"></i>
+            </div>
+
+            <a href="#" class="forgot-link">Forgot password?</a>
+            <br>
+            
+            <button id="loginBtn">Login</button>
+            
+            <div id="message"></div>
+
+            <div class="divider">or</div>
+
+            <button type="button" class="google-btn">
+                <i class="fa-brands fa-google"></i> Sign in with Google
+            </button>
+        </div>
+
+        <script>
+            const panda = document.getElementById("panda");
+            const pupils = document.querySelectorAll(".pupil");
+            const usernameInput = document.getElementById("username");
+            const password = document.getElementById("password");
+            const loginBtn = document.getElementById("loginBtn");
+            const togglePassword = document.getElementById("togglePassword");
+            const message = document.getElementById("message");
+
+            // Eyes follow cursor
+            document.addEventListener("mousemove", (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                pupils.forEach(p => {
+                    p.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+
+            // Password Toggle Logic
+            togglePassword.addEventListener("click", function() {
+                const isPasswordVisible = password.getAttribute("type") === "text";
+                const type = isPasswordVisible ? "password" : "text";
+                password.setAttribute("type", type);
+                
+                this.classList.toggle("fa-eye", type === "text");
+                this.classList.toggle("fa-eye-slash", type === "password");
+                
+                if(type === "text") {
+                    panda.classList.add("hide-eyes");
+                } else {
+                    panda.classList.remove("hide-eyes");
+                }
+            });
+
+            password.addEventListener("focus", () => {
+                if(password.type === "text") panda.classList.add("hide-eyes");
+            });
+            password.addEventListener("blur", () => {
+                panda.classList.remove("hide-eyes");
+            });
+
+            // Functional Login Logic with Validation
+            loginBtn.addEventListener("click", () => {
+                const user = usernameInput.value;
+                const pass = password.value;
+                
+                // Regex for: Min 8 chars, at least 1 letter and 1 number
+                const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+                message.classList.add("show");
+                
+                if(user === "" || pass === "") {
+                    message.style.color = "#e74c3c";
+                    message.innerText = "Please fill in all fields";
+                } else if (!passRegex.test(pass)) {
+                    message.style.color = "#e74c3c";
+                    message.innerText = "Password must be at least 8 characters long and contain both letters and numbers.";
+                } else {
+                    message.style.color = "#27ae60";
+                    message.innerText = "Login Successful!";
+                    panda.classList.add("wave");
+                    setTimeout(() => panda.classList.remove("wave"), 1000);
+                    
+                    usernameInput.value = "";
+                    password.value = "";
+                }
+            });
+
+            // Blink occasionally
+            setInterval(() => {
+                panda.classList.add("blink");
+                setTimeout(() => panda.classList.remove("blink"), 200)
+            }, 4000);
+        </script>
+    </body>
+</html>
