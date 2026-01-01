@@ -1,4 +1,4 @@
-# Login Page
+# Login-Page
 Interactive Panda Login Page
 A modern, responsive, and playful login interface featuring an interactive CSS-animated panda. The mascot reacts to user input, follows the cursor with its eyes, and even hides its eyes when the password is revealed!
 
