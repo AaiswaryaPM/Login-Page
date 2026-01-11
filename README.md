@@ -33,3 +33,12 @@ https://aaiswaryapm.github.io/Login-Page/
  - **JavaScript (ES6):** DOM manipulation, mouse-tracking logic, and Regex validation.
  - **FontAwesome:** For intuitive UI icons.
  - **Google Fonts:** Utilizing 'Poppins' for a clean, modern aesthetic.
+
+## 📂 File Structure
+```
+Login-Page/
+├── images/                
+│   └── bamboo.jpg
+├── index.html  
+├── style.css
+└── script.js
