@@ -24,6 +24,9 @@ The login logic enforces the following security standards:
 | Password Length | Minimum 8 characters. |
 | Password Complexity | Must contain at least one letter and one number. |
 
+## 🚀 Live Demo
+https://aaiswaryapm.github.io/Login-Page/
+
 ## 🛠️ Built With
  - **HTML5:** Semantic structure for accessibility.
  - **CSS3:** Custom animations, Flexbox/Grid, and @media queries.
